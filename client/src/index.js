@@ -6,6 +6,9 @@ import App from './App';
 import Login from './components/Login/Login';
 import QuoteLastTradeDate from './components/QuoteLastTradeDate/QuoteLastTradeDate';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+import './dashboard.css';
 import './index.css';
 
 ReactDOM.render(

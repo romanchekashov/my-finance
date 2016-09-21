@@ -22,5 +22,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const QuoteLastTradeDate = { search };
-export default QuoteLastTradeDate;
+const QuoteLastTradeDateApi = { search };
+export default QuoteLastTradeDateApi;
