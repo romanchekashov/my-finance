@@ -17,7 +17,7 @@ const env = process.env.NODE_ENV || 'development';
 if (env === 'production') {
   console.log(env);
   console.log(process.env.PORT);
-  app.set('port', (process.env.PORT || 3000));
+  app.set('port', (process.env.PORT || 8080));
   app.use(express.static(path.join(__dirname, 'client/build')));
 } else {
   app.set('port', (process.env.API_PORT || 3001));
