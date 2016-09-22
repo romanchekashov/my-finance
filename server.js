@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+import login from './routes/login';
 
 var app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -22,6 +23,18 @@ if (env === 'production') {
 } else {
   app.set('port', (process.env.API_PORT || 3001));
 }
+
+//
+// Authentication
+// -----------------------------------------------------------------------------
+app.use(expressJwt({
+  secret: process.env.JWT_SECRET,
+  credentialsRequired: true,
+  getToken: req => {
+    if(req.cookies) return req.cookies.id_token;
+    return null;
+  },
+}).unless({path: ['/login']}));
 
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
@@ -75,12 +88,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function(err, req, res, next) {
+  console.log(err, req, res, next);
+  if (err.name === 'UnauthorizedError') {
+    // res.status(401).send('invalid token...');
+    res.redirect('/login');
+  } else {
+    var err1 = new Error('Not Found');
+    err1.status = 404;
+    next(err1);
+  }
 });
 
 // error handlers
