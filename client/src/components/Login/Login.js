@@ -11,7 +11,7 @@ class Login extends Component {
           <img src={logo} className="Login-logo" alt="logo" />
           <h2>Welcome to MyFinance</h2>
         </div>
-        <form>
+        <form className="col-md-6 col-md-offset-3">
           <div className="form-group">
             <label className="sr-only" htmlFor="exampleInputEmail3">Email address</label>
             <input type="email" className="form-control" id="exampleInputEmail3" placeholder="Enter email" />
@@ -25,7 +25,7 @@ class Login extends Component {
               <input className="form-check-input" type="checkbox" /> Remember me
             </label>
           </div>
-          <button type="submit" className="btn btn-primary">Sign in</button>
+          <button type="submit" className="btn btn-lg btn-primary">Sign in</button>
         </form>
       </div>
     );

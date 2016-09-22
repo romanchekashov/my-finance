@@ -1,4 +1,5 @@
 var express = require('express');
+import expressJwt from 'express-jwt';
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,8 +10,19 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+const env = process.env.NODE_ENV || 'development';
+// const env = 'development';
 
-app.set('port', (process.env.API_PORT || 3001));
+
+if (env === 'production') {
+  console.log(env);
+  console.log(process.env.PORT);
+  app.set('port', (process.env.PORT || 3000));
+  app.use(express.static(path.join(__dirname, 'client/build')));
+} else {
+  app.set('port', (process.env.API_PORT || 3001));
+}
+
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
@@ -47,6 +59,7 @@ app.get('/api/quote-last-trade-date', (req, res) => {
     res.json([]);
   }
 });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
