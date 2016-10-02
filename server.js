@@ -9,14 +9,15 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 import login from './routes/login';
+import api from './routes/api';
 
 var app = express();
-const env = process.env.NODE_ENV || 'development';
-// const env = 'development';
+// const env = process.env.NODE_ENV || 'development';
+const env = 'development';
 
+console.log(env, process.env.JWT_SECRET);
 
 if (env === 'production') {
-  console.log(env);
   console.log(process.env.PORT);
   app.set('port', (process.env.PORT || 3000));
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -29,7 +30,7 @@ if (env === 'production') {
 // -----------------------------------------------------------------------------
 app.use(expressJwt({
   secret: process.env.JWT_SECRET,
-  credentialsRequired: true,
+  credentialsRequired: false,
   getToken: req => {
     if(req.cookies) return req.cookies.id_token;
     return null;
@@ -39,7 +40,7 @@ app.use(expressJwt({
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
-app.get('/api/quote-last-trade-date', (req, res) => {
+app.get('/api/quote-last-trade-date0', (req, res) => {
   const param = req.query.q;
 
   if (!param) {
@@ -89,6 +90,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
