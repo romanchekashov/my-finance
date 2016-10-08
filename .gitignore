@@ -44,3 +44,5 @@ client/build
 # misc
 client/.DS_Store
 client/npm-debug.log
+
+.idea/

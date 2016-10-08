@@ -29,6 +29,7 @@
     "express-jwt": "^5.0.0",
     "foreman": "^2.0.0",
     "hbs": "~4.0.0",
+    "jsonwebtoken": "^7.1.9",
     "less-middleware": "1.0.x",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"

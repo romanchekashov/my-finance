@@ -6,10 +6,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-import login from './routes/login';
-import api from './routes/api';
+var routes = require('./server/routes/index');
+var users = require('./server/routes/users');
+import login from './server/routes/login';
+import api from './server/routes/api';
 
 var app = express();
 // const env = process.env.NODE_ENV || 'development';
@@ -40,42 +40,10 @@ app.use(expressJwt({
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
-app.get('/api/quote-last-trade-date0', (req, res) => {
-  const param = req.query.q;
 
-  if (!param) {
-    // res.json({
-    //   error: 'Missing required parameter `q`',
-    // });
-    res.json([
-      {code:"B", symbol:"BZ", lastTradeDate: 123123523420}
-    ]);
-    return;
-  }
-
-  const r = db.exec(`
-    select ${COLUMNS.join(', ')} from entries
-    where description like '%${param}%'
-    limit 100
-  `);
-
-  if (r[0]) {
-    res.json(
-      r[0].values.map((entry) => {
-        const e = {};
-        COLUMNS.forEach((c, idx) => {
-          e[c] = entry[idx];
-        });
-        return e;
-      }),
-    );
-  } else {
-    res.json([]);
-  }
-});
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'server/views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
